@@ -5,11 +5,20 @@ export default {
     extend: {
       colors: {
         primary: {
-          50: '#f0f9ff',
-          100: '#e0f2fe',
-          500: '#0284c7',
-          600: '#0284c7',
-          700: '#0369a1',
+          DEFAULT: '#339D9E',
+          dark: '#1F6F72',
+          soft: '#E3F5F4',
+        },
+        accent: {
+          DEFAULT: '#FF8F54',
+          hover: '#E87A3E',
+        },
+        app: {
+          bg: '#FFF9EE',
+          card: '#FFFFFF',
+          text: '#12343B',
+          muted: '#5B7479',
+          border: '#EADFC8',
         },
       },
     },

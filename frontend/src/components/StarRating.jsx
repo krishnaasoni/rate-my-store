@@ -30,8 +30,8 @@ const StarRating = ({ value = 0, readOnly = false, onRate, size = 'md' }) => {
             <Star
               className={`${starSizes[size]} ${
                 isFilled
-                  ? 'fill-amber-400 text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]'
-                  : 'text-slate-600 fill-slate-800'
+                  ? 'fill-accent text-accent'
+                  : 'text-slate-200 fill-slate-100'
               } transition-colors`}
             />
           </button>

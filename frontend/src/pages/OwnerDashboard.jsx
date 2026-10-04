@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 import SortableTable from '../components/SortableTable';
-import { Store, Star, Users, MapPin, Mail, Calendar, Award } from 'lucide-react';
+import { Store, Star, Users, MapPin, Mail, Award } from 'lucide-react';
 
 const OwnerDashboard = () => {
   const { API_URL } = useAuth();
@@ -41,7 +41,6 @@ const OwnerDashboard = () => {
     }
   };
 
-  // Prepare table data with sorting
   const getSortedRaters = () => {
     if (!dashboard || !dashboard.ratingUsers) return [];
     const list = [...dashboard.ratingUsers];
@@ -57,7 +56,6 @@ const OwnerDashboard = () => {
       if (sortBy === 'userEmail') {
         return a.user.email.localeCompare(b.user.email) * order;
       }
-      // default: submittedAt
       return (new Date(a.submittedAt) - new Date(b.submittedAt)) * order;
     });
 
@@ -70,7 +68,7 @@ const OwnerDashboard = () => {
       label: 'User Name',
       sortable: true,
       render: (item) => (
-        <span className="font-semibold text-white">{item.user.name}</span>
+        <span className="font-semibold text-app-text">{item.user.name}</span>
       ),
     },
     {
@@ -78,7 +76,7 @@ const OwnerDashboard = () => {
       label: 'User Email',
       sortable: true,
       render: (item) => (
-        <span className="font-mono text-xs text-slate-300">{item.user.email}</span>
+        <span className="font-mono text-xs text-app-muted">{item.user.email}</span>
       ),
     },
     {
@@ -86,7 +84,7 @@ const OwnerDashboard = () => {
       label: 'User Address',
       sortable: false,
       render: (item) => (
-        <span className="text-xs text-slate-300 leading-relaxed">{item.user.address}</span>
+        <span className="text-xs text-app-muted leading-relaxed">{item.user.address}</span>
       ),
     },
     {
@@ -94,18 +92,18 @@ const OwnerDashboard = () => {
       label: 'Submitted Rating',
       sortable: true,
       render: (item) => (
-        <div className="flex items-center space-x-1.5">
+        <div className="flex items-center space-x-1">
           {[1, 2, 3, 4, 5].map((star) => (
             <Star
               key={star}
               className={`w-4 h-4 ${
                 star <= item.rating
-                  ? 'fill-amber-400 text-amber-400 drop-shadow-[0_0_6px_rgba(251,191,36,0.4)]'
-                  : 'text-slate-700 fill-slate-800'
+                  ? 'fill-accent text-accent'
+                  : 'text-slate-200 fill-slate-100'
               }`}
             />
           ))}
-          <span className="ml-1.5 text-xs font-bold text-amber-300">({item.rating})</span>
+          <span className="ml-1.5 text-xs font-bold text-app-text">({item.rating})</span>
         </div>
       ),
     },
@@ -114,7 +112,7 @@ const OwnerDashboard = () => {
       label: 'Submitted Date',
       sortable: true,
       render: (item) => (
-        <span className="text-xs text-slate-400">
+        <span className="text-xs text-app-muted">
           {new Date(item.submittedAt).toLocaleDateString()} {new Date(item.submittedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
         </span>
       ),
@@ -122,16 +120,16 @@ const OwnerDashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
+    <div className="min-h-screen bg-app-bg text-app-text">
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 pb-6 border-b border-slate-800">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 pb-6 border-b border-app-border">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white flex items-center">
-              <Store className="w-8 h-8 mr-3 text-emerald-400" /> Store Owner Dashboard
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-app-text flex items-center">
+              <Store className="w-8 h-8 mr-3 text-primary" /> Store Owner Dashboard
             </h1>
-            <p className="text-sm text-slate-400 mt-1">
+            <p className="text-sm text-app-muted mt-1">
               Monitor store rating analytics and customer feedback
             </p>
           </div>
@@ -139,18 +137,18 @@ const OwnerDashboard = () => {
 
         {loading ? (
           <div className="flex flex-col items-center justify-center py-16 space-y-4">
-            <div className="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
-            <p className="text-slate-400 text-sm">Loading store analytics...</p>
+            <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-app-muted text-sm font-medium">Loading store analytics...</p>
           </div>
         ) : error ? (
-          <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-sm">
+          <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-sm">
             {error}
           </div>
         ) : !dashboard ? (
-          <div className="p-12 text-center rounded-2xl bg-slate-900/60 border border-slate-800">
-            <Store className="w-12 h-12 text-slate-600 mx-auto mb-3" />
-            <h3 className="text-base font-bold text-white">No Store Assigned</h3>
-            <p className="text-xs text-slate-400 mt-1">
+          <div className="p-12 text-center rounded-xl bg-app-card border border-app-border shadow-sm">
+            <Store className="w-12 h-12 text-app-muted mx-auto mb-3" />
+            <h3 className="text-base font-bold text-app-text">No Store Assigned</h3>
+            <p className="text-xs text-app-muted mt-1">
               Please contact the System Administrator to assign a store to your account.
             </p>
           </div>
@@ -159,64 +157,64 @@ const OwnerDashboard = () => {
             {/* STORE PROFILE & AVERAGE RATING CARDS */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
               {/* Store Details Card */}
-              <div className="lg:col-span-2 p-6 rounded-2xl bg-slate-900/80 border border-slate-800 backdrop-blur-sm relative overflow-hidden flex flex-col justify-between">
+              <div className="lg:col-span-2 p-6 rounded-xl bg-app-card border border-app-border shadow-sm flex flex-col justify-between">
                 <div>
                   <div className="flex items-center space-x-3 mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center border border-emerald-500/20">
+                    <div className="w-12 h-12 rounded-xl bg-primary-soft text-primary-dark flex items-center justify-center border border-primary/20">
                       <Store className="w-6 h-6" />
                     </div>
                     <div>
-                      <h2 className="text-xl font-bold text-white">{dashboard.store.name}</h2>
-                      <span className="text-xs text-slate-400 flex items-center mt-0.5">
+                      <h2 className="text-xl font-bold text-app-text">{dashboard.store.name}</h2>
+                      <span className="text-xs text-app-muted flex items-center mt-0.5">
                         <Mail className="w-3.5 h-3.5 mr-1" /> {dashboard.store.email}
                       </span>
                     </div>
                   </div>
 
-                  <div className="flex items-start space-x-2 text-xs text-slate-300">
-                    <MapPin className="w-4 h-4 text-slate-400 flex-shrink-0 mt-0.5" />
+                  <div className="flex items-start space-x-2 text-xs text-app-muted">
+                    <MapPin className="w-4 h-4 text-app-muted flex-shrink-0 mt-0.5" />
                     <span>{dashboard.store.address}</span>
                   </div>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+                <div className="mt-6 pt-4 border-t border-app-border flex items-center justify-between text-xs text-app-muted">
                   <span>Store ID: #{dashboard.store.id}</span>
-                  <span className="text-emerald-400 font-semibold flex items-center">
+                  <span className="text-primary font-semibold flex items-center">
                     <Award className="w-4 h-4 mr-1" /> Active Store
                   </span>
                 </div>
               </div>
 
               {/* STORE AVERAGE RATING DISPLAY REQUIREMENT */}
-              <div className="p-6 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-900 to-amber-950/30 border border-amber-500/30 backdrop-blur-sm relative overflow-hidden flex flex-col justify-between shadow-xl">
+              <div className="p-6 rounded-xl bg-app-card border border-app-border shadow-sm flex flex-col justify-between">
                 <div>
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-semibold text-amber-300 uppercase tracking-wider">
+                    <span className="text-xs font-semibold text-app-muted uppercase tracking-wider">
                       Overall Average Rating
                     </span>
-                    <Star className="w-6 h-6 fill-amber-400 text-amber-400" />
+                    <Star className="w-6 h-6 fill-accent text-accent" />
                   </div>
 
                   <div className="mt-4 flex items-baseline space-x-2">
-                    <span className="text-4xl font-black text-amber-300">
+                    <span className="text-4xl font-black text-app-text">
                       {dashboard.averageRating}
                     </span>
-                    <span className="text-slate-400 text-sm font-semibold">/ 5.0</span>
+                    <span className="text-app-muted text-sm font-semibold">/ 5.0</span>
                   </div>
 
-                  <p className="text-xs text-slate-400 mt-2">
-                    Based on <strong className="text-white">{dashboard.totalRatingsCount}</strong> user submission{dashboard.totalRatingsCount === 1 ? '' : 's'}
+                  <p className="text-xs text-app-muted mt-2">
+                    Based on <strong className="text-app-text">{dashboard.totalRatingsCount}</strong> user submission{dashboard.totalRatingsCount === 1 ? '' : 's'}
                   </p>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-amber-500/20 flex items-center space-x-1.5">
+                <div className="mt-6 pt-4 border-t border-app-border flex items-center space-x-1">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <Star
                       key={star}
                       className={`w-5 h-5 ${
                         star <= Math.round(dashboard.averageRating)
-                          ? 'fill-amber-400 text-amber-400'
-                          : 'text-slate-700 fill-slate-800'
+                          ? 'fill-accent text-accent'
+                          : 'text-slate-200 fill-slate-100'
                       }`}
                     />
                   ))}
@@ -227,8 +225,8 @@ const OwnerDashboard = () => {
             {/* LIST OF USERS WHO RATED STORE REQUIREMENT */}
             <div className="mb-6">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-bold text-white flex items-center">
-                  <Users className="w-5 h-5 mr-2 text-sky-400" /> Customer Submitted Ratings ({dashboard.ratingUsers.length})
+                <h3 className="text-lg font-bold text-app-text flex items-center">
+                  <Users className="w-5 h-5 mr-2 text-primary" /> Customer Submitted Ratings ({dashboard.ratingUsers.length})
                 </h3>
               </div>
 
