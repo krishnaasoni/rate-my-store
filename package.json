@@ -1,0 +1,16 @@
+{
+  "name": "rate-my-store",
+  "version": "1.0.0",
+  "description": "RateMyStore Full-Stack Store Rating Web Application",
+  "private": true,
+  "scripts": {
+    "install:all": "cd backend && npm install && cd ../frontend && npm install",
+    "backend:dev": "cd backend && npm run dev",
+    "frontend:dev": "cd frontend && npm run dev",
+    "db:push": "cd backend && npx prisma db push",
+    "db:seed": "cd backend && npm run prisma:seed"
+  },
+  "keywords": ["ratemystore", "express", "prisma", "react", "tailwindcss", "jwt"],
+  "author": "",
+  "license": "ISC"
+}
